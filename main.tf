@@ -1,20 +1,31 @@
+# ---------------------------------------------
+# Terraform configuration
+# ---------------------------------------------
+terraform {
+  required_version = ">=0.13"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+
+# ---------------------------------------------
+# Provider
+# ---------------------------------------------
 provider "aws" {
-  profile = "terraform" //IAM User
+  profile = "terraform"
   region  = "ap-northeast-1"
 }
 
-//EC2インスタンスを起動
-resource "aws_instance" "hello-world" {
-  ami           = "ami-0b7546e839d7ace12"
-  instance_type = "t2.micro"
+# ---------------------------------------------
+# Variables
+# ---------------------------------------------
+variable "project" {
+  type = string
+}
 
-  tags = {
-    Name = "HelloWorld"
-  }
-
-  user_data = <<EOF
-#!/bin/bash
-amazon-linux-extras install -y nginx1.12
-systemctl start nginx
-EOF
+variable "environment" {
+  type = string
 }
